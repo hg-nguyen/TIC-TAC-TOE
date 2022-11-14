@@ -1,25 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis&family=Open+Sans&display=swap');
 
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-}
-
-:root {
-    --yellow: #ffbe0b;
-    --winning-blocks: #8338ec;
+    color: #ffbe0b;
 }
 
 body {
-    color: var(--#ffbe0b);
+    color: #ffbe0b;
     font-family: 'Dosis';
 }
 
-/* h1 {
-    font-size: ;
-    text-transform: uppercase;
-} */
+h1 {
+    font-size: 4em;
+}
 
 .container {
     padding: 40px;
@@ -44,7 +39,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--yellow);
+
     font-size: 120px;
     border-right: 2px solid;
     border-bottom: 2px solid;
@@ -68,9 +63,10 @@ body {
 button {
     padding: 10px 20px;
     border-radius: 10px;
-    background-color: var(--yellow);
     color: #8338ec;
-    border-color: var(--yellow);
+    border-color: purple;
     font-size: 20px;
-    transition: 200ms transform;
+    background-color: #ffbe0b;
+    position: absolute;
+    margin-top: 690px;
 }

@@ -1,88 +1,70 @@
+const winningPatterns = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+]
+
 // Call element by ID and class name
-const playerText = document.getElementById('playerText');
-const restartBtn = document.getElementById('resetBtn');
+let playerText = document.getElementById('playerText')
+let restartBtn = document.getElementById('resetBtn')
+
 // Create an array from an "Array-Like object"
-let boxes = Array.from(document.getElementsByClassName('box'));
+let boxes = Array.from(document.getElementsByClassName('box'))
 
-
-// console.log(boxes);
-const spaces = [];
-const playCount = 0;
 const playerO = "O";
 const playerX = "X";
-const tie = "Tie";
-let currentPlayer = playerX
-// Keep track of which block is clicked
-// Create array of 9 spaces and fill them with NULL
-let cells = Array(9).fill(null)
-let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks')
-let drawIndicator = getComputedStyle(document.body).getPropertyValue('--draw-blocks');
+let currentPlayer = playerX;
 
-// console.log(cells);
+// Create array of 9 spaces and fill them with NULL
+let cells = Array(9).fill(null);
+let countPlay = 0;
 
 // Add event listener to each of the boxes
-const playGame = () => {
+function playGame() {
     boxes.forEach(box => box.addEventListener('click', boxClicked))
 }
 
 // target each box by ID
-
 function boxClicked(e) {
     const id = e.target.id
-// if this index is equaled to null, continue //
-    if(!cells[id]){
-        // fill in boxes with x or o
+// if this index is null, fill in space with X or O
+    if(cells!=[id] && countPlay < 9){
         cells[id] = currentPlayer;
         e.target.innerText = currentPlayer;
-// if player has won highlight three boxes with "has won msg" //
-     } if(playerHasWon() !==false){
-            playerText.innerHTML = (currentPlayer) + ' has won!';
-            let winning_blocks = playerHasWon();
-            winning_blocks.map( box => boxes[box].style.backgroundColor=winnerIndicator);
-            return
-        }
-        currentPlayer = currentPlayer === playerX ? playerO : playerX;
 
-     if(playCount === 9) {
-        playerText.innerHTML = 'Tie!';
-        boxes.forEach(box => box.style.color = drawIndicator)
+        if(winGame() !==false){
+            playerText.innerHTML = (currentPlayer) + ' has won!';
+            let winningLines = winGame();
+            countPlay = 10;
+            winningLines.map(box => boxes[box].style.backgroundColor="purple");
+            return;
+        }
+        countPlay++
+
+//if current player is equal to playerX change it to playerO or elese change it to playerX
+        currentPlayer = currentPlayer == playerX ? playerO : playerX;
+    }
+    if (countPlay === 9){
+        playerText.innerHTML = 'Draw!';
     }
 }
 
 
-    const winningCombos = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6], 
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-        ];
-
-    function playerHasWon() {
-        for (const condition of winningCombos) {
-            let [a, b, c] = condition
-    
-            if(cells[a] && (cells[a] == cells[b] && cells[a] == cells[c])) {
-                return [a,b,c]
-            }
+function winGame() {
+// loop over winning combination lines.  
+    for (const condition of winningPatterns) {
+        let [a, b, c] = condition
+// Check if A is the same as B, C, otherwise it will return invalid
+        if(cells[a] && (cells[a] == cells[b] && cells[a] == cells[c])) {
+            return [a,b,c]
         }
-        return false
     }
-
-const playerDraw = () => {
-    let draw = 0;
-    spaces.forEach((space, i) => {
-        if (spaces[i] !== null) draw++;
-    });
-
-    if (draw === 9) {
-    text.innerText = `Draw`;
-    restart();
-        }
-      };
-
+    return false;
+}
 
 playGame()
